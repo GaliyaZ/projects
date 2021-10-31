@@ -7,6 +7,8 @@ const image3 = document.getElementById('image3');
 const textBox = document.getElementById('text-box');
 let color = '';
 
+//console.log(localStorage.getItem('themeMode'));
+
 function imageMode (color) {
   image1.src = `img/undraw_proud_coder_${color}.svg`;
   image2.src = `img/undraw_feeling_proud_${color}.svg`;
@@ -14,6 +16,7 @@ function imageMode (color) {
 }
 
 function darkMode() {
+  document.documentElement.setAttribute('data-theme', 'dark');
   nav.style.backgroundColor = 'rgb(0 0 0 / 50%)';
   textBox.style.backgroundColor = 'rgb(255 255 255 / 50%)';
   toggleIcon.children[0].textContent = 'Dark Mode';
@@ -23,6 +26,7 @@ function darkMode() {
 }
 
 function lightMode() {
+  document.documentElement.setAttribute('data-theme', 'light');
   nav.style.backgroundColor = 'rgb(255 255 255 / 50%)';
   textBox.style.backgroundColor = 'rgb(0 0 0 / 50%)';
   toggleIcon.children[0].textContent = 'Light Mode';
@@ -34,12 +38,20 @@ function lightMode() {
 function switchTheme(event) {
   //console.log(event.target.checked);
   if (event.target.checked) {
-    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('themeMode', 'dark');
     darkMode();
   } else {
-    document.documentElement.setAttribute('data-theme', 'light');
+    localStorage.setItem('themeMode', 'light');
     lightMode();
   }
 }
 
 toggleSwitch.addEventListener('change', switchTheme);
+
+const currentTheme = localStorage.getItem('themeMode');
+if (currentTheme === 'dark') {
+  toggleSwitch.checked = true;
+  darkMode();
+} else {
+  lightMode();
+}
